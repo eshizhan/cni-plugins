@@ -78,8 +78,6 @@ func parseConfig(stdin []byte) (*PluginConf, error) {
 		if err != nil {
 			return nil, err
 		}
-		bandwidth.IngressBurst = max(bandwidth.IngressRate / 100, 1600 * 8)
-		bandwidth.EgressBurst = max(bandwidth.EgressRate / 100, 1600 * 8)
 	}
 
 	if conf.RawPrevResult != nil {
