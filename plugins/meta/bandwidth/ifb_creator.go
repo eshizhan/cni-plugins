@@ -124,7 +124,7 @@ func createTBF(rateInBits, burstInBits uint64, linkIndex int) error {
 		return fmt.Errorf("invalid burst: %d", burstInBits)
 	}
 	rateInBytes := rateInBits / 8
-	burstInBytes := max(rateInBits / 100, 1600 * 8) / 8
+	burstInBytes := max(rateInBits / 83, 1800 * 8) / 8
 	bufferInBytes := buffer(rateInBytes, uint32(burstInBytes))
 	latency := latencyInUsec(latencyInMillis)
 	limitInBytes := limit(rateInBytes, latency, uint32(burstInBytes))
