@@ -78,6 +78,8 @@ func parseConfig(stdin []byte) (*PluginConf, error) {
 		if err != nil {
 			return nil, err
 		}
+		bandwidth.IngressBurst = limitBurst(bandwidth.IngressRate, bandwidth.IngressBurst)
+		bandwidth.EgressBurst = limitBurst(bandwidth.EgressRate, bandwidth.EgressBurst)
 	}
 
 	if conf.RawPrevResult != nil {
@@ -93,6 +95,13 @@ func parseConfig(stdin []byte) (*PluginConf, error) {
 	}
 
 	return &conf, nil
+}
+
+func limitBurst(rate, burst uint64) uint64 {
+	if burst >= math.MaxUint32 {
+		return uint64(max(float64(rate)*1.2/100, 1500*2*8))
+	}
+	return burst
 }
 
 func getBandwidth(conf *PluginConf) *BandwidthEntry {
